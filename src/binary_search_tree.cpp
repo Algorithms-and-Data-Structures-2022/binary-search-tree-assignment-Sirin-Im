@@ -82,35 +82,33 @@ namespace assignment {
   }
 
   bool BinarySearchTree::remove(int key, Node*& node) {
-    if (node == nullptr) {
-      return false;
-    }
+    if (node != nullptr) {
+      if (key > node->key) {
+        return remove(key, node->right);
+      }
 
-    if (key > node->key) {
-      remove(key, node->right);
-    }
+      if (key < node->key) {
+        return remove(key, node->left);
+      }
 
-    if (key < node->key) {
-      remove(key, node->left);
-    }
-
-    if (key == node->key) {
-      if (node->right == nullptr && node->left == nullptr) {
-        node = nullptr;
-        return true;
-      } else if (node->right != nullptr && node->left == nullptr) {
-        node = node->right;
-        node->right = nullptr;
-        return true;
-      } else if (node->left != nullptr && node->right == nullptr) {
-        node = node->left;
-        node->left = nullptr;
-        return true;
-      } else {
-        Node* min_node = find_min(node->right);
-        node->key = min_node->key;
-        node->value = min_node->value;
-        return remove(min_node->key, node->right);
+      if (key == node->key) {
+        if (node->right == nullptr && node->left == nullptr) {
+          node = nullptr;
+          return true;
+        } else if (node->right != nullptr && node->left == nullptr) {
+          node = node->right;
+          node->right = nullptr;
+          return true;
+        } else if (node->left != nullptr && node->right == nullptr) {
+          node = node->left;
+          node->left = nullptr;
+          return true;
+        } else {
+          Node* min_node = find_min(node->right);
+          node->key = min_node->key;
+          node->value = min_node->value;
+          return remove(min_node->key, node->right);
+        }
       }
     }
   }
